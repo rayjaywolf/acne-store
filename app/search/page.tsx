@@ -20,7 +20,7 @@ export default async function SearchPage(props: {
   
   // Filter products based on the search query
   const filteredProducts = allProducts.filter(product =>
-    product.title.toLowerCase().includes(searchValue.toLowerCase())
+    searchValue && product.title.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   const resultsText = filteredProducts.length > 1 ? 'results' : 'result';
