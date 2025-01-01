@@ -19,7 +19,6 @@ import {
 import { getMenuQuery } from './queries/menu';
 import { getPageQuery, getPagesQuery } from './queries/page';
 import {
-  getAllProductsQuery,
   getProductQuery,
   getProductRecommendationsQuery,
   getProductsQuery
@@ -328,12 +327,13 @@ export async function getCollections(): Promise<Collection[]> {
         title: 'All',
         description: 'All products'
       },
-      path: '/search/all',
+      path: '/search',
       updatedAt: new Date().toISOString()
     },
-    // Filter out the `hidden` collections and the "Hidden: All" collection.
+    // Filter out the `hidden` collections.
+    // Collections that start with `hidden-*` need to be hidden on the search page.
     ...reshapeCollections(shopifyCollections).filter(
-      (collection) => !collection.handle.startsWith('hidden') && collection.title !== 'Hidden: All'
+      (collection) => !collection.handle.startsWith('hidden')
     )
   ];
 
@@ -402,32 +402,20 @@ export async function getProductRecommendations(productId: string): Promise<Prod
 
 export async function getProducts({
   query,
-  sortKey,
-  reverse
+  reverse,
+  sortKey
 }: {
   query?: string;
-  sortKey?: string;
   reverse?: boolean;
-} = {}): Promise<Product[]> {
+  sortKey?: string;
+}): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyProductsOperation>({
     query: getProductsQuery,
     tags: [TAGS.products],
     variables: {
-      query: query ? query.trim() : undefined,
-      sortKey,
-      reverse
-    }
-  });
-
-  return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
-}
-
-export async function getAllProducts(): Promise<Product[]> {
-  const res = await shopifyFetch<ShopifyProductsOperation>({
-    query: getAllProductsQuery,
-    tags: [TAGS.products],
-    variables: {
-      first: 250 // This should be included in the query definition
+      query,
+      reverse,
+      sortKey
     }
   });
 
