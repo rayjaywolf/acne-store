@@ -427,7 +427,7 @@ export async function getAllProducts(): Promise<Product[]> {
     query: getAllProductsQuery,
     tags: [TAGS.products],
     variables: {
-      first: 250 // Adjust the number based on your needs
+      first: 250 // This should be included in the query definition
     }
   });
 
