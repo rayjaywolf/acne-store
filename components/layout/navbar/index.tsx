@@ -56,6 +56,9 @@ export async function Navbar() {
           <CartModal />
         </div>
       </div>
+      <Link href="/catalog" className="nav-link">
+        Catalog
+      </Link>
     </nav>
   );
 }

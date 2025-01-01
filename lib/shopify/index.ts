@@ -327,7 +327,7 @@ export async function getCollections(): Promise<Collection[]> {
         title: 'All',
         description: 'All products'
       },
-      path: '/search',
+      path: '/search/all',
       updatedAt: new Date().toISOString()
     },
     // Filter out the `hidden` collections.
@@ -402,20 +402,20 @@ export async function getProductRecommendations(productId: string): Promise<Prod
 
 export async function getProducts({
   query,
-  reverse,
-  sortKey
+  sortKey,
+  reverse
 }: {
   query?: string;
-  reverse?: boolean;
   sortKey?: string;
-}): Promise<Product[]> {
+  reverse?: boolean;
+} = {}): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyProductsOperation>({
     query: getProductsQuery,
     tags: [TAGS.products],
     variables: {
-      query,
-      reverse,
-      sortKey
+      query: query ? query.trim() : undefined,
+      sortKey,
+      reverse
     }
   });
 
