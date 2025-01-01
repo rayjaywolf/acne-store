@@ -19,6 +19,7 @@ import {
 import { getMenuQuery } from './queries/menu';
 import { getPageQuery, getPagesQuery } from './queries/page';
 import {
+  getAllProductsQuery,
   getProductQuery,
   getProductRecommendationsQuery,
   getProductsQuery
