@@ -421,6 +421,18 @@ export async function getProducts({
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
 }
 
+export async function getAllProducts(): Promise<Product[]> {
+  const res = await shopifyFetch<ShopifyProductsOperation>({
+    query: getAllProductsQuery,
+    tags: [TAGS.products],
+    variables: {
+      first: 250 // Adjust the number based on your needs
+    }
+  });
+
+  return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
+}
+
 // This is called from `app/api/revalidate.ts` so providers can control revalidation logic.
 export async function revalidate(req: NextRequest): Promise<NextResponse> {
   // We always need to respond with a 200 status code to Shopify,

@@ -30,3 +30,17 @@ export const getProductRecommendationsQuery = /* GraphQL */ `
   }
   ${productFragment}
 `;
+
+export const getAllProductsQuery = /* GraphQL */ `
+  query getAllProducts($first: Int!) {
+    products(first: $first) {
+      edges {
+        node {
+          id
+          title
+          // Add other fields you need
+        }
+      }
+    }
+  }
+`;
