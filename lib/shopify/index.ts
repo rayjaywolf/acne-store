@@ -330,10 +330,9 @@ export async function getCollections(): Promise<Collection[]> {
       path: '/search/all',
       updatedAt: new Date().toISOString()
     },
-    // Filter out the `hidden` collections.
-    // Collections that start with `hidden-*` need to be hidden on the search page.
+    // Filter out the `hidden` collections and the "Hidden: All" collection.
     ...reshapeCollections(shopifyCollections).filter(
-      (collection) => !collection.handle.startsWith('hidden')
+      (collection) => !collection.handle.startsWith('hidden') && collection.title !== 'Hidden: All'
     )
   ];
 
